@@ -1,0 +1,33 @@
+package edu.project.rs.test;
+
+import edu.project.rs.test.resources.PersonResource;
+import io.dropwizard.jersey.setup.JerseyEnvironment;
+import io.dropwizard.setup.Environment;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+/**
+ * Created by s.nevmerzhytska on 1/16/2015.
+ */
+public class TestApplicationTest {
+    private final Environment environment = mock(Environment.class);
+    private final JerseyEnvironment jersey = mock(JerseyEnvironment.class);
+    private final TestApplication application = new TestApplication();
+    private final ApplicationConfiguration configuration = new ApplicationConfiguration();
+
+    @Before
+    public void setup() {
+        when(environment.jersey()).thenReturn(jersey);
+    }
+
+    @Test
+    public void testBuildResouces() throws Exception {
+        application.run(configuration, environment);
+        verify(jersey).register(any(PersonResource.class));
+    }
+}
