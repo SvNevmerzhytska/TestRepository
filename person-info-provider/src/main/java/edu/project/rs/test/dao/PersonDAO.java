@@ -18,6 +18,4 @@ public interface PersonDAO {
     void updatePerson(Person person);
 
     void deletePerson(Person person);
-
-    void deletePersonById(int id);
 }

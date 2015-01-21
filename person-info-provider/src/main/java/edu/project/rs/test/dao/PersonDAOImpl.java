@@ -2,7 +2,6 @@ package edu.project.rs.test.dao;
 
 import edu.project.rs.test.model.Person;
 import org.hibernate.SessionFactory;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +16,11 @@ public class PersonDAOImpl implements PersonDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
+    /**
+     *
+     * @param person
+     * @return id of created person in DB
+     */
     @Override
     public int createPerson(Person person) {
         sessionFactory.getCurrentSession().persist(person);
@@ -24,28 +28,45 @@ public class PersonDAOImpl implements PersonDAO {
         return person.id;
     }
 
+    /**
+     *
+     * @param id
+     * @return {@link edu.project.rs.test.model.Person} object if it exists in DB
+     * OR null if it is not
+     */
     @Override
     public Person findPersonById(int id) {
-        return new Person("Ann", "Black", DateTime.now().minusYears(20));
+        return (Person) sessionFactory.getCurrentSession().get(Person.class, id);
     }
 
+    /**
+     *
+     * @return list of {@link edu.project.rs.test.model.Person}s that exist in DB
+     * (if table is empty return zero sized list
+     */
     @Override
     public List<Person> findAllPersons() {
         return sessionFactory.getCurrentSession().createCriteria(Person.class).list();
     }
 
+    /**
+     * Updates only exsistent person in DB
+     * @param person
+     */
     @Override
     public void updatePerson(Person person) {
-
+        if(findPersonById(person.id) != null) {
+            sessionFactory.getCurrentSession().merge(person);
+        }
     }
 
+    /**
+     * Delete only existent person in DB
+     * @param person
+     */
     @Override
     public void deletePerson(Person person) {
-
+        sessionFactory.getCurrentSession().delete(person);
     }
 
-    @Override
-    public void deletePersonById(int id) {
-
-    }
 }

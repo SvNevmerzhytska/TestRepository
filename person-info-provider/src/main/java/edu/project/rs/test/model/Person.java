@@ -5,7 +5,6 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -65,6 +64,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return firstName + " " + lastName + ", " + birthDate.year().getAsText();
+        return "id=" + id + ", " + firstName + " " + lastName + ", " + birthDate.year().getAsText();
     }
 }
