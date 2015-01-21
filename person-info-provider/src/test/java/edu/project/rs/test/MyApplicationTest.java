@@ -5,22 +5,18 @@ import io.dropwizard.jersey.setup.JerseyEnvironment;
 import io.dropwizard.setup.Environment;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.context.ContextConfiguration;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by s.nevmerzhytska on 1/16/2015.
  */
-@ContextConfiguration(locations = { "classpath:spring/applicationContext.xml" })
 public class MyApplicationTest {
     private final Environment environment = mock(Environment.class);
     private final JerseyEnvironment jersey = mock(JerseyEnvironment.class);
     private final MyApplication application = new MyApplication();
-    private final ApplicationConfiguration configuration = new ApplicationConfiguration();
+    private final ApplicationConfiguration configuration = new TestApplicationConfiguration();
 
     @Before
     public void setup() {

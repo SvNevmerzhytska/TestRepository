@@ -9,7 +9,6 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.io.IOException;
-import java.util.Date;
 
 /**
  * Created by s.nevmerzhytska on 1/19/2015.

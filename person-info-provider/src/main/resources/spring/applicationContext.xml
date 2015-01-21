@@ -36,9 +36,9 @@
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
-				<!--<prop key="hibernate.transaction.auto_close_session">true</prop>
-				<prop key="hibernate.hibernate.connection.release_mode">auto</prop>-->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.transaction.auto_close_session">true</prop>
+				<prop key="hibernate.hibernate.connection.release_mode">auto</prop>
 			</props>
 		</property>
 	</bean>
@@ -47,5 +47,4 @@
 		  class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-
 </beans>

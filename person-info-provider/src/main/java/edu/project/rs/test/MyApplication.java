@@ -13,6 +13,9 @@ import java.util.Map;
  * Created by s.nevmerzhytska on 1/16/2015.
  */
 public class MyApplication extends Application<ApplicationConfiguration> {
+
+    private Class springConfigurationClass = MyAppSpringConfiguration.class;
+
     public static void main(String[] args) throws Exception {
         new MyApplication().run(new String[] { "server" });
     }
@@ -37,7 +40,7 @@ public class MyApplication extends Application<ApplicationConfiguration> {
 
         //the real main app context has a link to the parent context
         ctx.setParent(parent);
-        ctx.register(MyAppSpringConfiguration.class);
+        ctx.register(applicationConfiguration.getSpringConfiguration());
         ctx.refresh();
         ctx.registerShutdownHook();
         ctx.start();
