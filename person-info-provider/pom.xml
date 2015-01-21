@@ -12,6 +12,10 @@
     <mockitoVersion>1.10.19</mockitoVersion>
     <dropwizardVersion>0.7.1</dropwizardVersion>
     <springVersion>4.1.4.RELEASE</springVersion>
+    <jodaTimeVersion>2.7</jodaTimeVersion>
+    <h2Version>1.4.185</h2Version>
+    <jpaVersion>1.0.0.Final</jpaVersion>
+    <hibernateVersion>4.3.8.Final</hibernateVersion>
   </properties>
 
   <dependencies>
@@ -48,6 +52,53 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
       <version>${springVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>${springVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${springVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${springVersion}</version>
+    </dependency>
+    <!-- Joda-time -->
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>${jodaTimeVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jadira.usertype</groupId>
+      <artifactId>usertype.core</artifactId>
+      <version>3.2.0.GA</version>
+    </dependency>
+    <!-- Database -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>${h2Version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate.javax.persistence</groupId>
+      <artifactId>hibernate-jpa-2.1-api</artifactId>
+      <version>${jpaVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>${hibernateVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+      <version>1.2.2</version>
     </dependency>
   </dependencies>
 
