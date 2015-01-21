@@ -1,7 +1,6 @@
 package edu.project.rs.test;
 
 import com.codahale.metrics.health.HealthCheck;
-import edu.project.rs.test.resources.PersonResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
