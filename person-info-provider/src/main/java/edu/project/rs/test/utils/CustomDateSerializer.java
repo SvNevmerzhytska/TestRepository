@@ -20,7 +20,6 @@ public class CustomDateSerializer extends JsonSerializer<DateTime> {
     @Override
     public void serialize(DateTime dateTime, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
         jsonGenerator.writeString(formatter.print(dateTime));
-
     }
 }
 
