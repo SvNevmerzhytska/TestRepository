@@ -1,5 +1,6 @@
 package edu.project.rs.test.resources;
 
+import com.wordnik.swagger.annotations.*;
 import edu.project.rs.test.model.Person;
 import edu.project.rs.test.representations.PersonJSON;
 import edu.project.rs.test.service.PersonService;
@@ -19,23 +20,43 @@ import java.util.List;
 @Path("/person")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Api(value = "/person", description = "Operations on persons")
 public class PersonResource {
 
     @Autowired
     private PersonService personService;
 
     @POST
-    public int addPerson(PersonJSON person) {
+    @ApiOperation(value = "Create person", response = int.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Person was created"),
+            @ApiResponse(code = 400, message = "Invalid JSON"),
+            @ApiResponse(code = 500, message = "Internal service problem (lost DB connection, etc.)")
+    })
+    public int addPerson(@ApiParam(value = "Person that need to be added to DB", required = true) PersonJSON person) {
         return personService.addPerson(PersonJSON.getPerson(person));
     }
 
     @GET
     @Path("/{id}")
-    public PersonJSON getPersonById(@PathParam("id")IntParam id) {
+    @ApiOperation(value = "Find person by defined id", response = PersonJSON.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Given person was found"),
+            @ApiResponse(code = 400, message = "Id is not integer"),
+            @ApiResponse(code = 404, message = "Person was not found in DB"),
+            @ApiResponse(code = 500, message = "Internal service problem (lost DB connection, etc.)")
+    })
+    public PersonJSON getPersonById(@ApiParam(value = "Id of person to find", required = true) @PathParam("id")IntParam id) {
         return new PersonJSON(personService.findPerson(id.get()));
     }
 
     @GET
+    @ApiOperation(value = "List all persons", response = List.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "List of persons was successfully retrieved"),
+            @ApiResponse(code = 400, message = "Invalid JSON"),
+            @ApiResponse(code = 500, message = "Internal service problem (lost DB connection, etc.)")
+    })
     public List<PersonJSON> getPersons() {
         List<Person> persons = personService.findAllPersons();
         List<PersonJSON> result = new ArrayList<PersonJSON>();
@@ -43,5 +64,14 @@ public class PersonResource {
             result.add(new PersonJSON(person));
         }
         return result;
+    }
+
+    @POST
+    @Path("/{id}")
+    public void updatePerson(@PathParam("id") IntParam id, PersonJSON personJSON) {
+        Person person = PersonJSON.getPerson(personJSON);
+        person.id = id.get();
+
+        personService.updatePerson(person);
     }
 }

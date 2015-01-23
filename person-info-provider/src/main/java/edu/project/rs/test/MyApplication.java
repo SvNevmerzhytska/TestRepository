@@ -1,6 +1,15 @@
 package edu.project.rs.test;
 
 import com.codahale.metrics.health.HealthCheck;
+import com.wordnik.swagger.config.ConfigFactory;
+import com.wordnik.swagger.config.ScannerFactory;
+import com.wordnik.swagger.config.SwaggerConfig;
+import com.wordnik.swagger.jaxrs.config.DefaultJaxrsScanner;
+import com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider;
+import com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON;
+import com.wordnik.swagger.jaxrs.listing.ResourceListingProvider;
+import com.wordnik.swagger.jaxrs.reader.DefaultJaxrsApiReader;
+import com.wordnik.swagger.reader.ClassReaders;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -59,5 +68,14 @@ public class MyApplication extends Application<ApplicationConfiguration> {
             environment.jersey().register(entry.getValue());
         }
 
+        //Configure Swagger
+        environment.jersey().register(new ApiListingResourceJSON());
+        environment.jersey().register(new ResourceListingProvider());
+        environment.jersey().register(new ApiDeclarationProvider());
+        ScannerFactory.setScanner(new DefaultJaxrsScanner());
+        ClassReaders.setReader(new DefaultJaxrsApiReader());
+        SwaggerConfig config = ConfigFactory.config();
+        config.setApiVersion("1.0.1");
+        config.setBasePath("http://localhost:8000");
     }
 }
