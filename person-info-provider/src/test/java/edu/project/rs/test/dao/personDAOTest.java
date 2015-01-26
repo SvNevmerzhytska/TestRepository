@@ -126,9 +126,8 @@ public class personDAOTest extends AbstractTransactionalJUnit4SpringContextTests
     @Test
     public void testDeleteExistentPerson() {
         Person person = new Person("Ann", "Test1", DateTime.parse("17-09-1990", CustomDateSerializer.formatter));
-        person.id = 1;
 
-        personDAO.deletePerson(person);
+        personDAO.deletePerson(1);
 
         List<Person> persons = personDAO.findAllPersons();
 
@@ -138,9 +137,7 @@ public class personDAOTest extends AbstractTransactionalJUnit4SpringContextTests
 
     @Test
     public void testDeleteNonExistentPerson() {
-        Person person = new Person("BrandNewName", "BrandNewSurname", DateTime.now());
-
-        personDAO.deletePerson(person);
+        personDAO.deletePerson(10);
 
         List<Person> persons = personDAO.findAllPersons();
 

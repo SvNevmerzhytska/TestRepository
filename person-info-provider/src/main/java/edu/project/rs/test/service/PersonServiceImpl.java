@@ -46,7 +46,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional
-    public void deletePerson(Person person) {
-        personDAO.deletePerson(person);
+    public void deletePerson(int id) {
+        personDAO.deletePerson(id);
     }
 }

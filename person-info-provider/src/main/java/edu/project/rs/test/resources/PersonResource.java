@@ -66,12 +66,30 @@ public class PersonResource {
         return result;
     }
 
-    @POST
+    @PUT
     @Path("/{id}")
-    public void updatePerson(@PathParam("id") IntParam id, PersonJSON personJSON) {
+    @ApiOperation(value = "Update person with defined id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Persons was successfully updated"),
+            @ApiResponse(code = 400, message = "Invalid JSON"),
+            @ApiResponse(code = 500, message = "Internal service problem (lost DB connection, etc.)")
+    })
+    public void updatePerson(@ApiParam(value = "Id of person to find", required = true) @PathParam("id") IntParam id,
+                             PersonJSON personJSON) {
         Person person = PersonJSON.getPerson(personJSON);
         person.id = id.get();
 
         personService.updatePerson(person);
+    }
+
+    @DELETE
+    @Path("/{id}")
+    @ApiOperation(value = "Delete person with defined id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Persons was successfully deleted"),
+            @ApiResponse(code = 500, message = "Internal service problem (lost DB connection, etc.)")
+    })
+    public void deletePerson(@ApiParam(value = "Id of person to find", required = true) @PathParam("id") IntParam id) {
+        personService.deletePerson(id.get());
     }
 }

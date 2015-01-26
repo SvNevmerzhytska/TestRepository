@@ -25,7 +25,7 @@ public class MyApplicationTest {
 
     @Test
     public void testBuildResouces() throws Exception {
-        application.run(configuration, environment);
+        application.initSpringContextAndRegisterResources(configuration, environment);
         verify(jersey).register(any(PersonResource.class));
     }
 }

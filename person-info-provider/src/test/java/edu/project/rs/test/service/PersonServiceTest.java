@@ -75,10 +75,14 @@ public class PersonServiceTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
-                mockPersons.remove((Person) invocationOnMock.getArguments()[0]);
+                int id = (int) invocationOnMock.getArguments()[0];
+                if (id < mockPersons.size()) {
+                    Person person = mockPersons.get(id - 1);
+                    mockPersons.remove(person);
+                }
                 return null;
             }
-        }).when(personDAO).deletePerson(any(Person.class));
+        }).when(personDAO).deletePerson(anyInt());
 
         MockitoAnnotations.initMocks(this);
     }
@@ -156,7 +160,7 @@ public class PersonServiceTest {
         Person person = new Person("Kate", "First", DateTime.now().minusYears(20));
         person.id = 1;
 
-        personService.deletePerson(person);
+        personService.deletePerson(1);
 
         List<Person> persons = personService.findAllPersons();
 
@@ -166,9 +170,7 @@ public class PersonServiceTest {
 
     @Test
     public void testDeleteNonExistentPerson() {
-        Person person = new Person("BrandNewName", "BrandNewSurname", DateTime.now());
-
-        personService.deletePerson(person);
+        personService.deletePerson(10);
 
         List<Person> persons = personService.findAllPersons();
 

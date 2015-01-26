@@ -64,11 +64,14 @@ public class PersonDAOImpl implements PersonDAO {
 
     /**
      * Delete only existent person in DB
-     * @param person
+     * @param id
      */
     @Override
-    public void deletePerson(Person person) {
-        sessionFactory.getCurrentSession().delete(person);
+    public void deletePerson(int id) {
+        Person person = (Person) sessionFactory.getCurrentSession().get(Person.class, id);
+        if (person != null) {
+            sessionFactory.getCurrentSession().delete(person);
+        }
     }
 
 }
