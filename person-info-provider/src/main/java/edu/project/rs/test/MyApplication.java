@@ -1,6 +1,5 @@
 package edu.project.rs.test;
 
-import com.codahale.metrics.health.HealthCheck;
 import com.wordnik.swagger.config.ConfigFactory;
 import com.wordnik.swagger.config.ScannerFactory;
 import com.wordnik.swagger.config.SwaggerConfig;
@@ -13,9 +12,13 @@ import com.wordnik.swagger.reader.ClassReaders;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
 import javax.ws.rs.Path;
+import java.util.EnumSet;
 import java.util.Map;
 
 /**
@@ -36,6 +39,16 @@ public class MyApplication extends Application<ApplicationConfiguration> {
 
     @Override
     public void run(ApplicationConfiguration applicationConfiguration, Environment environment) throws Exception {
+
+        initSpringContextAndRegisterResources(applicationConfiguration, environment);
+
+        configureSwagger(environment);
+
+        allowCORS(environment);
+
+    }
+
+    private void initSpringContextAndRegisterResources(ApplicationConfiguration applicationConfiguration, Environment environment) {
 
         // Init Spring context before we init the app context, we have to create a parent context with all the
         // config objects others rely on to get initialized
@@ -67,6 +80,9 @@ public class MyApplication extends Application<ApplicationConfiguration> {
         for(Map.Entry<String,Object> entry : resources.entrySet()) {
             environment.jersey().register(entry.getValue());
         }
+    }
+
+    private void configureSwagger(Environment environment) {
 
         //Configure Swagger
         environment.jersey().register(new ApiListingResourceJSON());
@@ -75,7 +91,22 @@ public class MyApplication extends Application<ApplicationConfiguration> {
         ScannerFactory.setScanner(new DefaultJaxrsScanner());
         ClassReaders.setReader(new DefaultJaxrsApiReader());
         SwaggerConfig config = ConfigFactory.config();
-        config.setApiVersion("1.0.1");
-        config.setBasePath("http://localhost:8000");
+        config.setApiVersion("1.0.0");
+        config.setBasePath("http://localhost:8080");
+    }
+
+    private void allowCORS(Environment environment) {
+
+        // Enable CORS headers
+        final FilterRegistration.Dynamic cors =
+                environment.servlets().addFilter("CORS", CrossOriginFilter.class);
+
+        // Configure CORS parameters
+        cors.setInitParameter("allowedOrigins", "*");
+        cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
+        cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
+
+        // Add URL mapping
+        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
     }
 }
