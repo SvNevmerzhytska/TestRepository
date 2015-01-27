@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.io.IOException;
@@ -15,7 +14,11 @@ import java.io.IOException;
  */
 public class CustomDateDeserializer extends JsonDeserializer<DateTime> {
 
-    public static DateTimeFormatter formatter = DateTimeFormat.forPattern("dd-MM-yyyy");
+    private DateTimeFormatter formatter;
+
+    public CustomDateDeserializer(DateTimeFormatter formatter) {
+        this.formatter = formatter;
+    }
 
     @Override
     public DateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {

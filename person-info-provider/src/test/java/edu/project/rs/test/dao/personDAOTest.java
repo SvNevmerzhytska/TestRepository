@@ -2,8 +2,9 @@ package edu.project.rs.test.dao;
 
 import edu.project.rs.test.MyTestAppSpringConfiguration;
 import edu.project.rs.test.model.Person;
-import edu.project.rs.test.utils.CustomDateSerializer;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +27,8 @@ public class personDAOTest extends AbstractTransactionalJUnit4SpringContextTests
     @Autowired
     private PersonDAO personDAO;
 
+    private DateTimeFormatter formatter = DateTimeFormat.forPattern("dd-MM-yyyy");
+
     @Before
     public void setUp() {
         executeSqlScript("insert-test-data.sql", false);
@@ -40,9 +43,9 @@ public class personDAOTest extends AbstractTransactionalJUnit4SpringContextTests
     public void testFindAll() {
         // according to insert-test-data.sql
         List<Person> expectedPersons = new ArrayList<Person>();
-        expectedPersons.add(new Person("Ann", "Test1", DateTime.parse("17-09-1990", CustomDateSerializer.formatter)));
-        expectedPersons.add(new Person("Kate", "Test2", DateTime.parse("01-01-1991", CustomDateSerializer.formatter)));
-        expectedPersons.add(new Person("Tom", "Test3", DateTime.parse("31-08-1989", CustomDateSerializer.formatter)));
+        expectedPersons.add(new Person("Ann", "Test1", DateTime.parse("17-09-1990", formatter)));
+        expectedPersons.add(new Person("Kate", "Test2", DateTime.parse("01-01-1991", formatter)));
+        expectedPersons.add(new Person("Tom", "Test3", DateTime.parse("31-08-1989", formatter)));
 
         List<Person> persons = personDAO.findAllPersons();
 
@@ -84,7 +87,7 @@ public class personDAOTest extends AbstractTransactionalJUnit4SpringContextTests
 
     @Test
     public void testFindPersonByExsistentId() {
-        Person expectedPerson = new Person("Ann", "Test1", DateTime.parse("17-09-1990", CustomDateSerializer.formatter));
+        Person expectedPerson = new Person("Ann", "Test1", DateTime.parse("17-09-1990", formatter));
 
         Person person = personDAO.findPersonById(1);
 
@@ -125,7 +128,7 @@ public class personDAOTest extends AbstractTransactionalJUnit4SpringContextTests
 
     @Test
     public void testDeleteExistentPerson() {
-        Person person = new Person("Ann", "Test1", DateTime.parse("17-09-1990", CustomDateSerializer.formatter));
+        Person person = new Person("Ann", "Test1", DateTime.parse("17-09-1990", formatter));
 
         personDAO.deletePerson(1);
 

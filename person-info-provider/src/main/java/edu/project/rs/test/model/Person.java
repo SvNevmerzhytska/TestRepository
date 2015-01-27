@@ -1,6 +1,5 @@
 package edu.project.rs.test.model;
 
-import edu.project.rs.test.utils.CustomDateSerializer;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -54,7 +53,7 @@ public class Person {
 
         return Objects.equals(this.firstName, that.firstName) &&
                 Objects.equals(this.lastName, that.lastName) &&
-                Objects.equals(this.birthDate.toString(CustomDateSerializer.formatter), that.birthDate.toString(CustomDateSerializer.formatter));
+                Objects.equals(this.birthDate.getDayOfYear(), that.birthDate.getDayOfYear());
     }
 
     @Override

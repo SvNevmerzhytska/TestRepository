@@ -1,11 +1,7 @@
 package edu.project.rs.test.representations;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import edu.project.rs.test.model.Person;
-import edu.project.rs.test.utils.CustomDateDeserializer;
-import edu.project.rs.test.utils.CustomDateSerializer;
 import org.joda.time.DateTime;
 
 /**
@@ -19,8 +15,6 @@ public class PersonJSON {
     @JsonProperty
     public String lastName;
     @JsonProperty
-    @JsonSerialize(using = CustomDateSerializer.class)
-    @JsonDeserialize(using = CustomDateDeserializer.class)
     public DateTime birthDate;
 
     public PersonJSON() {

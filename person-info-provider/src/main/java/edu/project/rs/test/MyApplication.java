@@ -1,6 +1,9 @@
 package edu.project.rs.test;
 
 import com.codahale.metrics.health.HealthCheck;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.wordnik.swagger.config.ScannerFactory;
 import com.wordnik.swagger.jaxrs.config.DefaultJaxrsScanner;
 import com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider;
@@ -8,10 +11,13 @@ import com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON;
 import com.wordnik.swagger.jaxrs.listing.ResourceListingProvider;
 import com.wordnik.swagger.jaxrs.reader.DefaultJaxrsApiReader;
 import com.wordnik.swagger.reader.ClassReaders;
+import edu.project.rs.test.utils.CustomDateDeserializer;
+import edu.project.rs.test.utils.CustomDateSerializer;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
+import org.joda.time.DateTime;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 import javax.servlet.DispatcherType;
@@ -28,7 +34,7 @@ public class MyApplication extends Application<ApplicationConfiguration> {
     private Class springConfigurationClass = MyAppSpringConfiguration.class;
 
     public static void main(String[] args) throws Exception {
-        new MyApplication().run(new String[] { "server" });
+        new MyApplication().run(new String[] { "server", "dropwizard-config.yml" });
     }
 
     @Override
@@ -45,6 +51,7 @@ public class MyApplication extends Application<ApplicationConfiguration> {
 
         allowCORS(environment);
 
+        configureSerializersDeserializers(applicationConfiguration, environment);
     }
 
     protected void initSpringContextAndRegisterResources(ApplicationConfiguration applicationConfiguration, Environment environment) {
@@ -103,5 +110,15 @@ public class MyApplication extends Application<ApplicationConfiguration> {
 
         // Add URL mapping
         cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+    }
+
+    private void configureSerializersDeserializers(ApplicationConfiguration applicationConfiguration, Environment environment) {
+        //for joda-datetime serialization/deserialization
+        ObjectMapper objectMapper = environment.getObjectMapper();
+        JodaModule jodaModule = new JodaModule();
+        jodaModule.addDeserializer(DateTime.class, new CustomDateDeserializer(applicationConfiguration.getDateTimeFormatter()));
+        jodaModule.addSerializer(DateTime.class, new CustomDateSerializer(applicationConfiguration.getDateTimeFormatter()));
+        objectMapper.registerModule(jodaModule);
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     }
 }
