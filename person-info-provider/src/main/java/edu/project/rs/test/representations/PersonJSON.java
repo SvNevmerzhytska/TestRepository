@@ -10,9 +10,9 @@ import org.joda.time.DateTime;
 public class PersonJSON {
 
     public int id;
-    @JsonProperty
+    @JsonProperty(required = true)
     public String firstName;
-    @JsonProperty
+    @JsonProperty(required = true)
     public String lastName;
     @JsonProperty
     public DateTime birthDate;

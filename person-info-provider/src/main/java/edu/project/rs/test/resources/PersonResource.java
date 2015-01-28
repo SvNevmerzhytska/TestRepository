@@ -17,10 +17,10 @@ import java.util.List;
  * Created by s.nevmerzhytska on 1/16/2015.
  */
 @Service
-@Path("/person")
+@Path("/persons")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@Api(value = "/person", description = "Operations on persons")
+@Api(value = "/persons", description = "Operations on persons")
 public class PersonResource {
 
     @Autowired
@@ -31,7 +31,8 @@ public class PersonResource {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Person was created"),
             @ApiResponse(code = 400, message = "Invalid JSON"),
-            @ApiResponse(code = 500, message = "Internal service problem (lost DB connection, etc.)")
+            @ApiResponse(code = 422, message = "Entity cannot be processed according to logical constraints"),
+            @ApiResponse(code = 500, message = "Internal service problem (lost DB connection, constraint violation etc.)")
     })
     public int addPerson(@ApiParam(value = "Person that need to be added to DB", required = true) PersonJSON person) {
         return personService.addPerson(PersonJSON.getPerson(person));
@@ -51,10 +52,9 @@ public class PersonResource {
     }
 
     @GET
-    @ApiOperation(value = "List all persons", response = List.class)
+    @ApiOperation(value = "List all persons", response = Person.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "List of persons was successfully retrieved"),
-            @ApiResponse(code = 400, message = "Invalid JSON"),
             @ApiResponse(code = 500, message = "Internal service problem (lost DB connection, etc.)")
     })
     public List<PersonJSON> getPersons() {
@@ -70,8 +70,9 @@ public class PersonResource {
     @Path("/{id}")
     @ApiOperation(value = "Update person with defined id")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Persons was successfully updated"),
-            @ApiResponse(code = 400, message = "Invalid JSON"),
+            @ApiResponse(code = 204, message = "Persons was successfully updated"),
+            @ApiResponse(code = 400, message = "Id is not integer"),
+            @ApiResponse(code = 404, message = "Person for update was not found in DB"),
             @ApiResponse(code = 500, message = "Internal service problem (lost DB connection, etc.)")
     })
     public void updatePerson(@ApiParam(value = "Id of person to find", required = true) @PathParam("id") IntParam id,
@@ -86,7 +87,9 @@ public class PersonResource {
     @Path("/{id}")
     @ApiOperation(value = "Delete person with defined id")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Persons was successfully deleted"),
+            @ApiResponse(code = 204, message = "Persons was successfully deleted"),
+            @ApiResponse(code = 400, message = "Id is not integer"),
+            @ApiResponse(code = 404, message = "Person for delete was not found in DB"),
             @ApiResponse(code = 500, message = "Internal service problem (lost DB connection, etc.)")
     })
     public void deletePerson(@ApiParam(value = "Id of person to find", required = true) @PathParam("id") IntParam id) {

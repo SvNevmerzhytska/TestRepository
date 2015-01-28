@@ -13,7 +13,7 @@ import java.util.Objects;
  * Created by s.nevmerzhytska on 1/16/2015.
  */
 @Entity
-@Table(name = "persons")
+@Table(name = "persons", uniqueConstraints = @UniqueConstraint(columnNames = {"first_name", "last_name"}))
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

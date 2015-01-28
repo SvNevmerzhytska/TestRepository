@@ -1,7 +1,7 @@
 package edu.project.rs.test.service;
 
 import edu.project.rs.test.dao.PersonDAO;
-import edu.project.rs.test.exceptions.PersonNotFoundException;
+import edu.project.rs.test.exceptions.NotFoundException;
 import edu.project.rs.test.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class PersonServiceImpl implements PersonService {
     public Person findPerson(int id) {
         Person person = personDAO.findPersonById(id);
         if (person == null) {
-            throw new PersonNotFoundException();
+            throw new NotFoundException(NotFoundException.PERSON_NOT_FOUND);
         }
         return person;
     }

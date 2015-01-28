@@ -6,7 +6,6 @@ import io.dropwizard.setup.Environment;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 /**
@@ -26,6 +25,6 @@ public class MyApplicationTest {
     @Test
     public void testBuildResouces() throws Exception {
         application.initSpringContextAndRegisterResources(configuration, environment);
-        verify(jersey).register(any(PersonResource.class));
+        verify(jersey).register(isA(PersonResource.class));
     }
 }

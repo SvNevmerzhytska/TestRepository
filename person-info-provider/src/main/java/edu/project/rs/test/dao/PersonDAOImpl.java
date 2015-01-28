@@ -1,5 +1,6 @@
 package edu.project.rs.test.dao;
 
+import edu.project.rs.test.exceptions.NotFoundException;
 import edu.project.rs.test.model.Person;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,9 @@ public class PersonDAOImpl implements PersonDAO {
     public void updatePerson(Person person) {
         if(findPersonById(person.id) != null) {
             sessionFactory.getCurrentSession().merge(person);
+            sessionFactory.getCurrentSession().flush();
+        } else {
+            throw new NotFoundException(NotFoundException.PERSON_NOT_FOUND);
         }
     }
 
@@ -71,6 +75,8 @@ public class PersonDAOImpl implements PersonDAO {
         Person person = (Person) sessionFactory.getCurrentSession().get(Person.class, id);
         if (person != null) {
             sessionFactory.getCurrentSession().delete(person);
+        } else {
+            throw new NotFoundException(NotFoundException.PERSON_NOT_FOUND);
         }
     }
 

@@ -1,6 +1,7 @@
 package edu.project.rs.test.dao;
 
 import edu.project.rs.test.MyTestAppSpringConfiguration;
+import edu.project.rs.test.exceptions.NotFoundException;
 import edu.project.rs.test.model.Person;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -118,7 +119,12 @@ public class personDAOTest extends AbstractTransactionalJUnit4SpringContextTests
     public void testUpdateNonExsistentPerson() {
         Person person = new Person("BrandNewName", "BrandNewSurname", DateTime.now());
 
-        personDAO.updatePerson(person);
+        try {
+            personDAO.updatePerson(person);
+            fail("Expected NotFoundException to be thrown");
+        }
+        catch (NotFoundException ex) {
+        }
 
         List<Person> persons = personDAO.findAllPersons();
 
@@ -140,7 +146,12 @@ public class personDAOTest extends AbstractTransactionalJUnit4SpringContextTests
 
     @Test
     public void testDeleteNonExistentPerson() {
-        personDAO.deletePerson(10);
+        try {
+            personDAO.deletePerson(10);
+            fail("Expected NotFoundException to be thrown");
+        }
+        catch (NotFoundException ex) {
+        }
 
         List<Person> persons = personDAO.findAllPersons();
 

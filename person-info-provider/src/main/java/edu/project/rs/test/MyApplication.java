@@ -23,6 +23,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import javax.ws.rs.Path;
+import javax.ws.rs.ext.Provider;
 import java.util.EnumSet;
 import java.util.Map;
 
@@ -84,6 +85,12 @@ public class MyApplication extends Application<ApplicationConfiguration> {
         //resources
         Map<String, Object> resources = ctx.getBeansWithAnnotation(Path.class);
         for(Map.Entry<String,Object> entry : resources.entrySet()) {
+            environment.jersey().register(entry.getValue());
+        }
+
+        //exception mappers
+        Map<String, Object> exceptionMappers = ctx.getBeansWithAnnotation(Provider.class);
+        for(Map.Entry<String, Object> entry: exceptionMappers.entrySet()) {
             environment.jersey().register(entry.getValue());
         }
     }
