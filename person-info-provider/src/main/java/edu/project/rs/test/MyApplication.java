@@ -14,6 +14,7 @@ import com.wordnik.swagger.reader.ClassReaders;
 import edu.project.rs.test.utils.CustomDateDeserializer;
 import edu.project.rs.test.utils.CustomDateSerializer;
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
@@ -40,7 +41,7 @@ public class MyApplication extends Application<ApplicationConfiguration> {
 
     @Override
     public void initialize(Bootstrap bootstrap) {
-
+        bootstrap.addBundle(new AssetsBundle("/webapp/swagger-ui", "/swagger", "index.html"));
     }
 
     @Override
