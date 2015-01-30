@@ -33,4 +33,19 @@ public class PersonJSON {
         person.id = personJSON.id;
         return person;
     }
+
+    @Override
+    public String toString() {
+        return getPerson(this).toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return getPerson(this).equals(getPerson((PersonJSON) obj));
+    }
+
+    @Override
+    public int hashCode() {
+        return getPerson(this).hashCode();
+    }
 }

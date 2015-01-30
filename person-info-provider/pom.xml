@@ -32,6 +32,11 @@
       <artifactId>mockito-core</artifactId>
       <version>${mockitoVersion}</version>
     </dependency>
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-assert</artifactId>
+      <version>1.4</version>
+    </dependency>
     <!-- Dropwizard -->
     <dependency>
       <groupId>io.dropwizard</groupId>
@@ -41,6 +46,11 @@
     <dependency>
       <groupId>io.dropwizard</groupId>
       <artifactId>dropwizard-assets</artifactId>
+      <version>${dropwizardVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.dropwizard</groupId>
+      <artifactId>dropwizard-testing</artifactId>
       <version>${dropwizardVersion}</version>
     </dependency>
     <!-- Spring -->

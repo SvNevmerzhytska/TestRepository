@@ -63,6 +63,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return "id=" + id + ", " + firstName + " " + lastName + ", " + birthDate.year().getAsText();
+        return "Person [id=" + id + ", " + firstName + " " + lastName + ", " + birthDate.year().getAsText() + "]";
     }
 }
