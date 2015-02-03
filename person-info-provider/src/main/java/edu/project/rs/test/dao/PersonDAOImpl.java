@@ -26,6 +26,7 @@ public class PersonDAOImpl implements PersonDAO {
      */
     @Override
     public int createPerson(Person person) {
+        person.id = 0;
         sessionFactory.getCurrentSession().persist(person);
         sessionFactory.getCurrentSession().flush();
         return person.id;

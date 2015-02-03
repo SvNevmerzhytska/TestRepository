@@ -15,8 +15,14 @@ public class ApplicationConfiguration extends Configuration {
     @JsonProperty
     private String dateFormat;
 
+    private Class springConfiguration = MyAppSpringConfiguration.class;
+
     public Class getSpringConfiguration() {
-        return MyAppSpringConfiguration.class;
+        return springConfiguration;
+    }
+
+    public void setSpringConfiguration(Class springConfiguration) {
+        this.springConfiguration = springConfiguration;
     }
 
     public String getDateFormat() {
@@ -28,6 +34,6 @@ public class ApplicationConfiguration extends Configuration {
     }
 
     public DateTimeFormatter getDateTimeFormatter() {
-        return DateTimeFormat.forPattern(dateFormat);
+        return DateTimeFormat.forPattern(dateFormat).withZoneUTC();
     }
 }
