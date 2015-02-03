@@ -35,11 +35,6 @@ public class PersonJSON {
     }
 
     @Override
-    public String toString() {
-        return getPerson(this).toString();
-    }
-
-    @Override
     public boolean equals(Object obj) {
         return getPerson(this).equals(getPerson((PersonJSON) obj));
     }

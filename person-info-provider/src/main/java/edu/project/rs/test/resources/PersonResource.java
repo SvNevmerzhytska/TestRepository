@@ -71,12 +71,13 @@ public class PersonResource {
     @ApiOperation(value = "Update person with defined id")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Persons was successfully updated"),
-            @ApiResponse(code = 400, message = "Id is not integer"),
+            @ApiResponse(code = 400, message = "Id is not integer or invalid JSON"),
             @ApiResponse(code = 404, message = "Person for update was not found in DB"),
+            @ApiResponse(code = 422, message = "Entity cannot be processed according to logical constraints"),
             @ApiResponse(code = 500, message = "Internal service problem (lost DB connection, etc.)")
     })
     public void updatePerson(@ApiParam(value = "Id of person to find", required = true) @PathParam("id") IntParam id,
-                             PersonJSON personJSON) {
+                             @ApiParam(value = "Person that need to be updated in DB", required = true) PersonJSON personJSON) {
         Person person = PersonJSON.getPerson(personJSON);
         person.id = id.get();
 
