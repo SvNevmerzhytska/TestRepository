@@ -3,7 +3,6 @@ package edu.project.rs.test.representations;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
 import edu.project.rs.test.model.Person;
 import edu.project.rs.test.utils.CustomDateDeserializer;
 import edu.project.rs.test.utils.CustomDateSerializer;
@@ -16,8 +15,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.fest.assertions.Assertions.assertThat;
 import static io.dropwizard.testing.FixtureHelpers.fixture;
+import static org.fest.assertions.Assertions.assertThat;
 
 /**
  * Created by s.nevmerzhytska on 1/29/2015.

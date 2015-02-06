@@ -8,41 +8,34 @@ import com.sun.jersey.api.client.GenericType;
 import edu.project.rs.test.ApplicationConfiguration;
 import edu.project.rs.test.MyApplication;
 import edu.project.rs.test.MyTestAppSpringConfiguration;
-import edu.project.rs.test.TestApplicationConfiguration;
 import edu.project.rs.test.exceptions.NotFoundException;
-import edu.project.rs.test.model.Person;
 import edu.project.rs.test.representations.PersonJSON;
 import edu.project.rs.test.utils.CustomDateDeserializer;
 import edu.project.rs.test.utils.CustomDateSerializer;
 import io.dropwizard.jackson.Jackson;
 import io.dropwizard.testing.junit.DropwizardAppRule;
-import org.hibernate.SessionFactory;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static io.dropwizard.testing.FixtureHelpers.fixture;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by s.nevmerzhytska on 2/2/2015.
