@@ -4,7 +4,6 @@ import com.codahale.metrics.health.HealthCheck;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
-import com.sun.jersey.api.core.ResourceConfig;
 import com.wordnik.swagger.config.ScannerFactory;
 import com.wordnik.swagger.jaxrs.config.DefaultJaxrsScanner;
 import com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider;
@@ -33,8 +32,6 @@ import java.util.Map;
  * Created by s.nevmerzhytska on 1/16/2015.
  */
 public class MyApplication extends Application<ApplicationConfiguration> {
-
-    private Class springConfigurationClass = MyAppSpringConfiguration.class;
 
     public static void main(String[] args) throws Exception {
         new MyApplication().run(new String[] { "server", "dropwizard-config.yml" });
@@ -95,9 +92,6 @@ public class MyApplication extends Application<ApplicationConfiguration> {
         for(Map.Entry<String, Object> entry: exceptionMappers.entrySet()) {
             environment.jersey().register(entry.getValue());
         }
-
-        // generate WADL
-        environment.jersey().getResourceConfig().getFeatures().put(ResourceConfig.FEATURE_DISABLE_WADL, false);
     }
 
     private void configureSwagger(Environment environment) {
