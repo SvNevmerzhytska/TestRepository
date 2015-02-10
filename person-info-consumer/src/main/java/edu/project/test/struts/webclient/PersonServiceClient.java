@@ -1,26 +1,77 @@
 package edu.project.test.struts.webclient;
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
+import edu.project.test.struts.exceptions.ExternalServerError;
+import edu.project.test.struts.exceptions.InvalidRequestException;
+import edu.project.test.struts.model.Person;
 import org.apache.cxf.jaxrs.client.WebClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import javax.ws.rs.core.MediaType;
+import javax.annotation.Resource;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by s.nevmerzhytska on 2/5/2015.
  */
+@Component
 public class PersonServiceClient {
 
-    public static void main(String[] args) {
-        List<Object> providers = new ArrayList<Object>();
-        providers.add(new JacksonJaxbJsonProvider());
+    @Autowired
+    @Resource
+    WebClient personsWebClient;
 
-        WebClient client = WebClient.create("http://localhost:8080/persons", providers);
-        client.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).path("/1");
+    public int postPerson(Person person) {
+        Response response = personsWebClient.post(person);
+        if (response.getStatus() >= 500) {
+            throw new ExternalServerError();
+        }
+        if (response.getStatus() != 200) {
+            throw new InvalidRequestException(Integer.toString(response.getStatus()));
+        }
+        return response.readEntity(Integer.class);
+    }
 
-        Response response = client.get();
-        System.out.println("status = " + response.getStatus() + ", person id = " + response.readEntity(String.class));
+    public List<Person> getPersonList() {
+        Response response = personsWebClient.get();
+        if (response.getStatus() >= 500) {
+            throw new ExternalServerError();
+        }
+        return response.readEntity(new GenericType<List<Person>>() {
+        });
+    }
+
+    public boolean updatePerson(Person person) {
+        Response response = personsWebClient.path(person.id).put(person);
+        if (response.getStatus() >= 500) {
+            throw new ExternalServerError();
+        }
+        if (response.getStatus() != 204) {
+            throw new InvalidRequestException(Integer.toString(response.getStatus()));
+        }
+        return true;
+    }
+
+    public boolean deletePerson(int id) {
+        Response response = personsWebClient.path(id).delete();
+        if (response.getStatus() >= 500) {
+            throw new ExternalServerError();
+        }
+        if (response.getStatus() != 204) {
+            throw new InvalidRequestException(Integer.toString(response.getStatus()));
+        }
+        return true;
+    }
+
+    public Person getPerson(int id) {
+        Response response = personsWebClient.path(id).get();
+        if (response.getStatus() >= 500) {
+            throw new ExternalServerError();
+        }
+        if (response.getStatus() != 200) {
+            throw new InvalidRequestException(Integer.toString(response.getStatus()));
+        }
+        return response.readEntity(Person.class);
     }
 }

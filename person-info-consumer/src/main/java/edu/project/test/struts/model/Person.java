@@ -21,6 +21,17 @@ public class Person {
     public Person() {
     }
 
+    public Person(String firstName, String lastName, DateTime birthDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+    }
+
+    public Person(int id, String firstName, String lastName, DateTime birthDate) {
+        this(firstName, lastName, birthDate);
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -36,5 +47,10 @@ public class Person {
     @Override
     public int hashCode() {
         return Objects.hash(firstName, lastName);
+    }
+
+    @Override
+    public String toString() {
+        return "Person [id=" + this.id + ", " + this.firstName + " " + this.lastName + ", " + this.birthDate.year().getAsText() + "]";
     }
 }
