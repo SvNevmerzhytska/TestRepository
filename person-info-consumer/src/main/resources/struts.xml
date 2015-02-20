@@ -7,19 +7,24 @@
 
     <constant name="struts.enable.DynamicMethodInvocation" value="false"/>
 
-    <package name="myPackage" extends="struts-default">
-
-        <default-action-ref name="index"/>
-
-        <action name="index" class="edu.project.test.struts.actions.IndexAction">
-            <result>/WEB-INF/jsp/index.jsp</result>
+    <package name="personPackage" extends="struts-default">
+        <action name="getAllPersons" method="getAllPersons" class="edu.project.test.struts.actions.PersonAction">
+            <result name="success">/jsp/persons.jsp</result>
         </action>
 
-        <action name="helloWorld" class="helloWorldAction">
-            <result name="input">/jsp/index.jsp</result>
-            <result>/WEB-INF/jsp/helloWorld.jsp</result>
+        <action name="setUpForInsertOrUpdate" method="setUpForInsertOrUpdate"
+                class="edu.project.test.struts.actions.PersonAction">
+            <result name="success">/jsp/personForm.jsp</result>
         </action>
 
+        <action name="insertOrUpdate" method="insertOrUpdate" class="edu.project.test.struts.actions.PersonAction">
+            <result name="success" type="redirectAction">jsp/getAllPersons</result>
+            <result name="input">/jsp/personForm.jsp</result>
+        </action>
+
+        <action name="delete" method="deletePerson" class="edu.project.test.struts.actions.PersonAction">
+            <result name="success" type="redirectAction">jsp/getAllPersons</result>
+        </action>
     </package>
 
 </struts>

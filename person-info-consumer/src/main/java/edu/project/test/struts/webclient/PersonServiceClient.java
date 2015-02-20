@@ -42,30 +42,31 @@ public class PersonServiceClient {
         });
     }
 
-    public boolean updatePerson(Person person) {
+    public void updatePerson(Person person) {
         Response response = personsWebClient.path(person.id).put(person);
+        personsWebClient.back(true);
         if (response.getStatus() >= 500) {
             throw new ExternalServerError();
         }
         if (response.getStatus() != 204) {
             throw new InvalidRequestException(Integer.toString(response.getStatus()));
         }
-        return true;
     }
 
-    public boolean deletePerson(int id) {
+    public void deletePerson(int id) {
         Response response = personsWebClient.path(id).delete();
+        personsWebClient.back(true);
         if (response.getStatus() >= 500) {
             throw new ExternalServerError();
         }
         if (response.getStatus() != 204) {
             throw new InvalidRequestException(Integer.toString(response.getStatus()));
         }
-        return true;
     }
 
     public Person getPerson(int id) {
         Response response = personsWebClient.path(id).get();
+        personsWebClient.back(true);
         if (response.getStatus() >= 500) {
             throw new ExternalServerError();
         }
