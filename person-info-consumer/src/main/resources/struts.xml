@@ -5,8 +5,6 @@
 
 <struts>
 
-    <constant name="struts.enable.DynamicMethodInvocation" value="false"/>
-
     <package name="personPackage" extends="struts-default">
         <action name="getAllPersons" method="getAllPersons" class="edu.project.test.struts.actions.PersonAction">
             <result name="success">/jsp/persons.jsp</result>

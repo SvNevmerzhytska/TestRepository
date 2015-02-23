@@ -7,13 +7,15 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 <html>
 <head>
     <link href="<s:url value="/css/app.css"/>" rel="stylesheet" type="text/css"/>
     <title>Create/edit person record</title>
+    <sj:head />
 </head>
 <body>
-<h1><s:if test="person==null || person.id == null">
+<h1><s:if test="person==null || person.id == 0">
     <s:label value="Add new person"/>
 </s:if>
     <s:else>
@@ -31,26 +33,27 @@
         <s:actionmessage/></td></tr>
 </table>
 
-<s:form>
+<s:form action="insertOrUpdate">
     <table align="center" class="borderAll">
 
-        <tr><td class="tdLabel"><s:label value="First Name"/></td>
-            <td><s:textfield name="person.firstName" size="30"/></td>
+        <tr>
+            <td><s:textfield label="First Name" name="person.firstName" size="30" requiredLabel="true"/></td>
         </tr>
         <tr>
-            <td class="tdLabel"><s:label value="Last Name"/></td>
-            <td><s:textfield name="person.lastName" size="30"/></td>
+            <td><s:textfield label="Last Name" name="person.lastName" size="30" requiredLabel="true"/></td>
         </tr>
-        <tr><td class="tdLabel"><s:label value="Date of Birth"/></td>
-            <td><input type="date" value="birthDate"></td>
+        <tr>
+            <td>
+                <sj:datepicker label="Date of Birth" displayFormat="yy-mm-dd" name="person.birthDate"/>
+            </td>
             <s:hidden name="person.id"/>
         </tr>
     </table>
 
     <table align="center">
         <tr>
-            <td><s:submit action="insertOrUpdate" value="Submit" cssClass="butStnd"/></td>
-            <td><s:reset value="Cancel" cssClass="butStnd"/></td>
+            <s:submit value="Submit" cssClass="butStnd"/>
+            <s:reset value="Cancel" cssClass="butStnd"/>
         <tr>
     </table>
 </s:form>

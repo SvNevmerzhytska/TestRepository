@@ -66,7 +66,9 @@ public class PersonAction extends ActionSupport {
             }
         }
 
-        /* TODO: validation for date*/
+        if(person.birthDate != null && person.birthDate.isAfterNow()) {
+            addActionMessage("Birth date should be in the past");
+        }
 
         if (this.hasActionMessages()) {
             return false;

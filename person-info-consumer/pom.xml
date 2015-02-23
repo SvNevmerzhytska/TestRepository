@@ -65,6 +65,11 @@
             <artifactId>struts2-spring-plugin</artifactId>
             <version>${struts2Version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.jgeppert.struts2.jquery</groupId>
+            <artifactId>struts2-jquery-plugin</artifactId>
+            <version>3.7.1</version>
+        </dependency>
         <!-- Servlet & Jsp -->
         <dependency>
             <groupId>javax.servlet</groupId>

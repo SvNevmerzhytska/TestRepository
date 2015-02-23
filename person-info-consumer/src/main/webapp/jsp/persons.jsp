@@ -43,17 +43,5 @@
         </tr>
     </s:iterator>
 </table>
-<%--<form action="editPerson.action">
-    <label for="firstName">First name:</label>
-    <input type="text" id="firstName" name="firstName" size="30" required>
-    <br>
-    <label for="lastName">Last name:</label>
-    <input type="text" id="lastName" name="lastName" size="30" required>
-    <br>
-    <label for="birthDate">Birth date:</label>
-    <input type="date" id="birthDate" name="birthDate">
-    <br><br>
-    <input type="submit" value="Submit">
-</form>--%>
 </body>
 </html>

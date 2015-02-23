@@ -12,9 +12,6 @@
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util.xsd
 
-
-
-
 		http://cxf.apache.org/jaxrs-client
 		http://cxf.apache.org/schemas/jaxrs-client.xsd">
 
