@@ -1,6 +1,7 @@
 package edu.project.test.struts.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
+import edu.project.test.struts.exceptions.InvalidRequestException;
 import edu.project.test.struts.model.Person;
 import edu.project.test.struts.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,16 @@ public class PersonAction extends ActionSupport {
         if (!isPersonValid()) {
             return INPUT;
         } else {
-            if (person.id == 0) {
-                personService.insertPerson(person);
-            } else {
-                personService.updatePerson(person);
+            try {
+                if (person.id == 0) {
+                    personService.insertPerson(person);
+                } else {
+                    personService.updatePerson(person);
+                }
+            }
+            catch (InvalidRequestException ex) {
+                addActionMessage("Endpoint system respond with error. Please check data in the fields.");
+                return ERROR;
             }
         }
         return SUCCESS;

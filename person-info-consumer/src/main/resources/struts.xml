@@ -6,6 +6,14 @@
 <struts>
 
     <package name="personPackage" extends="struts-default">
+        <global-results>
+            <result name="externalError">/jsp/externalError.jsp</result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="edu.project.test.struts.exceptions.ExternalServerError" result="externalError" />
+        </global-exception-mappings>
+
         <action name="getAllPersons" method="getAllPersons" class="edu.project.test.struts.actions.PersonAction">
             <result name="success">/jsp/persons.jsp</result>
         </action>
@@ -18,6 +26,7 @@
         <action name="insertOrUpdate" method="insertOrUpdate" class="edu.project.test.struts.actions.PersonAction">
             <result name="success" type="redirectAction">jsp/getAllPersons</result>
             <result name="input">/jsp/personForm.jsp</result>
+            <result name="error">/jsp/personForm.jsp</result>
         </action>
 
         <action name="delete" method="deletePerson" class="edu.project.test.struts.actions.PersonAction">
